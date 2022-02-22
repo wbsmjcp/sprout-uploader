@@ -30,4 +30,7 @@ print(r.text)
 #TO DO --- create function
 #  edit filename to remove filetype for upload
 # upload to otter
-# 
+# python api from github
+# display progress from upload
+# generate embed / print embed?
+# get from otter and upload to video file
