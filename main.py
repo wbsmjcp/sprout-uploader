@@ -27,34 +27,7 @@ r = requests.post(upload_Videos, data=m, headers={'Content-Type': m.content_type
 
 print(r.text)
 
-
-# files = {
-#     'source_video': (str(video_file), open(str(video_file), 'rb'), 'text/plain'),
-#     'video_title'
-#     }
-# body, content_type = requests.models.RequestEncodingMixin._encode_files(files, {})
-
-# this way you ensure having the same boundary defined in
-# the multipart/form-data contetn-type header
-# the form-data
-
-# payload = {
-#     'source_video': video_file,
-#     'title': video_title,
-
-#     }
-
-# def upload_sprout(files):
-
-#     response = requests.post(
-#         upload_Videos, 
-#         files=files, 
-#         headers={
-#             'SproutVideo-Api-Key': SproutVideoApiKey
-#             }
-#         )
-#     print(response.text)
-
-#     return response.json()
-
-# upload_sprout(files)
+#TO DO --- create function
+#  edit filename to remove filetype for upload
+# upload to otter
+# 
