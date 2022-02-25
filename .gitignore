@@ -1,9 +1,6 @@
 .env
-<<<<<<< HEAD
 otterai-api
 VID_18.mp4
 otter.json
 sample_otter.json
-=======
-exampleVideo.mp4
->>>>>>> d1fe9588fa4c42df898d688e724c8d2bf887f7ae
+sprout_upload.json

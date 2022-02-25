@@ -18,11 +18,16 @@ upload_Videos = config('upload_Videos', default='')
 otter = OtterAI()
 otter.login(otter_id, otter_pass)
 
-file = '/Users/dan_1/Documents/VSCODE/SPROUTUPPER/VID_18.mp4'
-title = os.path.basename(file)
-speech_id = ''
-rendered_speech_id = 'byo1ubKeTln7k4xzbkT7bbpsUBA'
+print('enter file path')
+file = input()
+print('file entered...')
 
+old_title = os.path.basename(file)
+title = old_title.replace('.mp4', '')
+
+speech_id = ''
+otter_URL = 'https://otter.ai/u/'
+rendered_URL = ''
 
 def upload_speech(file):
     """
@@ -32,18 +37,20 @@ def upload_speech(file):
     :return: The speech_id is being returned.
     """
     global speech_id
+    global rendered_URL
+    print('Attempting to upload speech: ' + title + ' to Otter.ai')
     try:
         upload = otter.upload_speech(file)
-        print(upload['status'])
-        print(upload['data'])
+        # print(upload['status'])
+        # print(upload['data'])
         speech_id = upload['data']['otid']
-        print(speech_id)
+        # print(speech_id)
+        rendered_URL = otter_URL + speech_id
+        print('''The link to speech is ... ''' + rendered_URL)
     except OtterAIException as e:
         print("Didn't work for some reason")
 
     return speech_id
-
-# upload_speech(file)
 
 def get_speech(id):
     """
@@ -51,41 +58,59 @@ def get_speech(id):
     
     :param id: The id of the speech you want to get
     """
-    global rendered_speech_id
+    global url
+    print('looking for speech...')
     try:
         speech = otter.get_speech(id)
+        # url = speech['data']['speech']['download_url']
     except OtterAIException as e:
         print("Couldn't find the speech")
     return speech
 
+def save_to_JSON(speech_id):
+    file = get_speech(speech_id)
 
-file = get_speech("byo1ubKeTln7k4xzbkT7bbpsUBA")
-# print(json.dumps(file, indent = 4))
-print(file['status'])
-with open('sample_otter.json', 'w') as outfile:
-    json.dump(file, outfile)
+    print(f"Status is - {file['status']} ")
+    with open('sample_otter.json', 'w') as outfile:
+        json.dump(file, outfile)
+    # print('saved JSON file to sample_otter.json')
 
+def upload_sprout(video_file, video_title):
+    m = MultipartEncoder(
+        fields={
+            'source_video': (video_file, open(video_file, 'rb'), 'text/plain'),
+            'video_title': video_title
+        }
+    )
 
+    r = requests.post(upload_Videos, data=m, headers={'Content-Type': m.content_type, 'SproutVideo-Api-Key': SproutVideoApiKey})
+    print(f"Video uploading to sprout under the name {video_title}.")
+ 
+    with open('sprout_upload.json', 'w') as outfile:
+        json.dump(r.text, outfile)
+    print('saved JSON file to sprout_upload.json')
 
-# print('Enter video file path')
-# video_file = input()
-# video_title = os.path.basename(video_file)
+    with open('sprout_upload.json', 'r') as new_file:
+        data = new_file.read()
+    obj1 = json.loads(data)
+    new_obj = json.loads(obj1)
+    new_embed = new_obj['embed_code'].replace('630', '632').replace('354', '352')
+    print('Embed code is as follows:')
+    print(new_embed)
+    
 
-# m = MultipartEncoder(
-#     fields={
-#         'source_video': (video_file, open(video_file, 'rb'), 'text/plain'),
-#         'video_title': video_title
-#     }
-# )
-
-# r = requests.post(upload_Videos, data=m, headers={'Content-Type': m.content_type, 'SproutVideo-Api-Key': SproutVideoApiKey})
-
-# print(r.text)
+def run_all(file, title):
+    upload_speech(file)
+    upload_sprout(file, title)
 
 #TO DO --- create function
-#  edit filename to remove filetype for upload
-# upload to otter
-# python api from github
 # display progress from upload
-# generate embed / print embed?
-# get from otter and upload to video file
+# get from otter and upload to video file - unable
+# share otter speech with designated user / group
+# collect and upload posterframe to video file?
+# future versions: upload all files within folder?
+# create a database/spreadsheet that stores all uploads and information in local folder
+# Return all values as a ticket
+
+
+run_all(file, title)
