@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8076840433fd1f0c6ef36271b925d00a13ad9512841eb078ef59c2b8de8cb66f"
+            "sha256": "841561c236891b561f80e8a79bc14ec1113d3ecd36b4f1862168e138c7a34a16"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -38,6 +38,10 @@
             ],
             "markers": "python_version >= '3'",
             "version": "==3.3"
+        },
+        "otterai": {
+            "path": "./otterai-api",
+            "version": "==0.0.1"
         },
         "python-decouple": {
             "hashes": [
