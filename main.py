@@ -7,6 +7,7 @@ sys.path.insert(0, 'otterai-api/otterai')
 from otterai import OtterAI
 import os
 from decouple import config
+import pandas as pd
 
 sprout_id = config('sprout_id', default='')
 sprout_pass = config('sprout_pass', default='')
@@ -41,12 +42,9 @@ def upload_speech(file):
     print('Attempting to upload speech: ' + title + ' to Otter.ai')
     try:
         upload = otter.upload_speech(file)
-        # print(upload['status'])
-        # print(upload['data'])
         speech_id = upload['data']['otid']
-        # print(speech_id)
         rendered_URL = otter_URL + speech_id
-        print('''The link to speech is ... ''' + rendered_URL)
+
     except OtterAIException as e:
         print("Didn't work for some reason")
 
@@ -73,13 +71,16 @@ def save_to_JSON(speech_id):
     print(f"Status is - {file['status']} ")
     with open('sample_otter.json', 'w') as outfile:
         json.dump(file, outfile)
-    # print('saved JSON file to sample_otter.json')
 
 def upload_sprout(video_file, video_title):
+    global sprout_link
+    global sprout_id
+    global new_embed
+
     m = MultipartEncoder(
         fields={
             'source_video': (video_file, open(video_file, 'rb'), 'text/plain'),
-            'video_title': video_title
+            'title': video_title
         }
     )
 
@@ -88,19 +89,28 @@ def upload_sprout(video_file, video_title):
  
     with open('sprout_upload.json', 'w') as outfile:
         json.dump(r.text, outfile)
-    print('saved JSON file to sprout_upload.json')
 
     with open('sprout_upload.json', 'r') as new_file:
         data = new_file.read()
     obj1 = json.loads(data)
     new_obj = json.loads(obj1)
     new_embed = new_obj['embed_code'].replace('630', '632').replace('354', '352')
-    print('Embed code is as follows:')
-    print(new_embed)
+    sprout_id = new_obj['id']
+    sprout_link = "https://sproutvideo.com/videos/" + new_obj['id']
     
-
 def run_all(file, title):
-    upload_speech(file)
+    print("upload to Otter? Y/N")
+    resp1 = input()
+
+    try:
+        if resp1 == "Y".upper():
+            upload_speech(file)
+    except:
+        if resp1 == "n".upper():
+            print("Skipping Otter.ai submission")
+    else:
+        print('incorrect')
+        
     upload_sprout(file, title)
 
 #TO DO --- create function
@@ -109,8 +119,24 @@ def run_all(file, title):
 # share otter speech with designated user / group
 # collect and upload posterframe to video file?
 # future versions: upload all files within folder?
-# create a database/spreadsheet that stores all uploads and information in local folder
-# Return all values as a ticket
 
 
+
+
+
+# - Start uploading to SproutVideo and Otter.ai
 run_all(file, title)
+
+# - Build Ticket
+database = {
+    "Otter URL": otter_URL,
+    "Sprout ID": sprout_id,
+    "Sprout URL": sprout_link,
+    "Embed Code": new_embed
+}
+
+df = pd.DataFrame([database])
+def_transposed = df.T
+def_transposed.to_csv(f"UploadTicket - {title}.csv")
+
+print("Complete. Please see csv file for info")

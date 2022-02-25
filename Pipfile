@@ -8,6 +8,7 @@ requests = "*"
 python-decouple = "*"
 requests-toolbelt = "*"
 otterai = {path = "./otterai-api"}
+pandas = "*"
 
 [dev-packages]
 
