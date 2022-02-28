@@ -4,7 +4,7 @@ import os
 import json
 import sys
 sys.path.insert(0, 'otterai-api/otterai')
-from otterai import OtterAI
+from otterai import OtterAI, OtterAIException
 import os
 from decouple import config
 
@@ -79,7 +79,7 @@ def upload_sprout(video_file, video_title):
     m = MultipartEncoder(
         fields={
             'source_video': (video_file, open(video_file, 'rb'), 'text/plain'),
-            'video_title': video_title
+            'title': video_title
         }
     )
 
@@ -106,7 +106,7 @@ def run_all(file, title):
 #TO DO --- create function
 # display progress from upload
 # get from otter and upload to video file - unable
-# share otter speech with designated user / group
+# share otter speech with designated user / group - michael.j.c.price@wbs.ac.uk
 # collect and upload posterframe to video file?
 # future versions: upload all files within folder?
 # create a database/spreadsheet that stores all uploads and information in local folder
