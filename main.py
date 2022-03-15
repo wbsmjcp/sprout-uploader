@@ -116,7 +116,7 @@ def run_all(file, title):
 #TO DO --- create function
 # display progress from upload
 # get from otter and upload to video file - unable
-# share otter speech with designated user / group - michael.j.c.price@wbs.ac.uk
+# share otter speech with designated user / group - 
 # collect and upload posterframe to video file?
 # future versions: upload all files within folder?
 
