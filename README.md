@@ -12,13 +12,15 @@ Create a file called .env in your sprout-uploader folder:
 
 Using your text editor, enter these variables and update accordingly: 
 
-```sprout_id = your sprout login email in ''
+``` 
+sprout_id = your sprout login email in ''
 sprout_pass = your sprout password in ''
 otter_id = your otter login email in ''
 otter_pass = your otter password in ''
 SproutVideoApiKey = your sprout video api key in ""
 list_Videos = "https://api.sproutvideo.com/v1/videos"
-upload_Videos = "https://api.sproutvideo.com/v1/videos"```
+upload_Videos = "https://api.sproutvideo.com/v1/videos" 
+```
 
 
 ---
