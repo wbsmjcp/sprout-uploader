@@ -8,7 +8,9 @@ This script is designed to be used from the command line.
 ### Required: store login details as .env file within folder. See below for variables.
 
 Create a file called .env in your sprout-uploader folder:
-`touch .env`
+```
+touch .env
+```
 
 Using your text editor, enter these variables and update accordingly: 
 
@@ -41,9 +43,11 @@ Install your pipenv environment:
 Uses otterai-api from https://github.com/chadlohrli/otterai-api
 needs to be cloned into project repository and installed via:
 
-`git clone https://github.com/chadlohrli/otterai-api`
-`cd otterai-api`
-`'pipenv install .'`
+```
+git clone https://github.com/chadlohrli/otterai-api
+cd otterai-api
+'pipenv install .'
+```
 
 otterai-api folder should be in the same folder as you your project files.
 
@@ -52,8 +56,10 @@ otterai-api folder should be in the same folder as you your project files.
 ###  Running the script from the terminal
 
 to run script, navigate terminal to project folder and run:
-`pipenv shell`
-`pipenv run python main.py`
+```
+pipenv shell
+pipenv run python main.py
+```
 
 script requests file path.
 
