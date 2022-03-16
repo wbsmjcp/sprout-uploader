@@ -109,7 +109,7 @@ def_transposed.to_csv(f"/Users/dan_1/Desktop/Upload Ticket - {title}.csv")
 ```
 <br>
 you need to replace the 
-``
+```
 /Users/dan_1/Desktop/
 ```
 section with the file path for your own desktop (or somewhere else you'd like the upload ticket csv files to go). <br>
@@ -127,7 +127,8 @@ open "/Users/dan_1/Documents/VSCODE/SPROUTUPPER"
 exit
 ```
 
-replace the ```
+replace the 
+```
 /Users/dan_1/Documents/VSCODE/SPROUTUPPER
 ``` 
 section with the pathname to folder you've saved the files to. In the earlier image, we saved the sprout-uploader folder to our documents folder so we would replace with ```
