@@ -1,5 +1,9 @@
 # Script to upload video files to both Sprout Video and Otter.ai.
 
+This script uploads to the video service Sprout Video and the speech to text service Otter.ai using both API's.
+
+The user provides a video file path which uploads to both services (user is given a choice to upload to Otter or not) and is returned a .csv file containing the web URL links for both uploads and a custom embed code that fits on the WBS VLE, my.wbs.
+
 ---
 
 This script is designed to be used from the command line. 
