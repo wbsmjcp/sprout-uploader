@@ -131,8 +131,13 @@ replace the
 ```
 /Users/dan_1/Documents/VSCODE/SPROUTUPPER
 ``` 
-section with the pathname to folder you've saved the files to. In the earlier image, we saved the sprout-uploader folder to our documents folder so we would replace with ```
+
+section with the pathname to folder you've saved the files to. In the earlier image, we saved the sprout-uploader folder to our documents folder so we would replace with 
+
+```
+
 /Users/dan_1/Documents/sprout-uploader
+
 ```
 
 When you have replaced the text on line 1 and 3, click save and close the file.
