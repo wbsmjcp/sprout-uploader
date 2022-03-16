@@ -125,6 +125,8 @@ once in, run the following code:<br>
 mv "Upload Video.app" "Upload Video.sh"
 ```
 
+![dock view](/images/image3.png)
+
 You can close the terminal here and run the script from your dock now or, if you wish, you can test the script from the terminal using the steps in the next section. Before then, you need to go up a directory with the following command:
 <br>
 `cd ..`
