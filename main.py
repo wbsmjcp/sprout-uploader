@@ -129,6 +129,6 @@ database = {
 
 df = pd.DataFrame([database])
 def_transposed = df.T
-def_transposed.to_csv(f"Upload Ticket - {title}.csv")
+def_transposed.to_csv(f"/Users/wbslecturecapture/Desktop/Upload Ticket - {title}.csv")
 
 print("Complete. Please see csv file for info")
