@@ -66,3 +66,12 @@ script requests file path.
 Script stores video title as new variable and removes filetype.
 Script attempts to upload video file to Otter.ai using supplied login credentials
 Script then uploads to SproutVideo with new title and returns upload information for both otter and sprout as a csv that contains links and embed codes.
+
+---
+### Future versions?
+
+display progress from upload
+get from otter and upload to video file - not currently able to do this
+share otter speech with designated user / group 
+collect and upload posterframe to video file?
+future versions: upload all files within folder?

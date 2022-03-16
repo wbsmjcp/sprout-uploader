@@ -20,7 +20,10 @@ otter = OtterAI()
 otter.login(otter_id, otter_pass)
 
 print('enter file path')
-file = input()
+filePath = input()
+print(filePath)
+
+file = filePath
 print('file entered...')
 
 old_title = os.path.basename(file)
@@ -100,31 +103,20 @@ def upload_sprout(video_file, video_title):
     
 def run_all(file, title):
     print("upload to Otter? Y/N")
-    resp1 = input()
+    responseOtter = input()
+    resp1 = responseOtter.upper()
 
     try:
-        if resp1 == "Y".upper():
+        if resp1 == "Y":
             upload_speech(file)
-    except:
-        if resp1 == "n".upper():
+        if resp1 == "N":
             print("Skipping Otter.ai submission")
-    else:
-        print('incorrect')
+    except:
+        if resp1 != "N" or resp1 != "Y":
+            print("Didn't recognise input, skipping Otter upload")       
         
     upload_sprout(file, title)
 
-#TO DO --- create function
-# display progress from upload
-# get from otter and upload to video file - unable
-# share otter speech with designated user / group - 
-# collect and upload posterframe to video file?
-# future versions: upload all files within folder?
-
-
-
-
-
-# - Start uploading to SproutVideo and Otter.ai
 run_all(file, title)
 
 # - Build Ticket
@@ -137,6 +129,6 @@ database = {
 
 df = pd.DataFrame([database])
 def_transposed = df.T
-def_transposed.to_csv(f"UploadTicket - {title}.csv")
+def_transposed.to_csv(f"Upload Ticket - {title}.csv")
 
 print("Complete. Please see csv file for info")
