@@ -67,8 +67,8 @@ pipenv run python3 main.py
 ```
 
 script requests file path.
-You can get this from the status bar at the bottom of your finder window (with the video selected). Right click the file path to get the option to copy to your clipboard.  
-![File path example] (/images/image1.png)
+You can get this from the status bar at the bottom of your finder window (with the video selected). Right click the file path to get the option to copy to your clipboard.   
+![File path example](/images/image1.png)
 
 Script stores video title as new variable and removes filetype.
 Script attempts to upload video file to Otter.ai using supplied login credentials
