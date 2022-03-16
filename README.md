@@ -75,7 +75,7 @@ cd otterai-api
 pipenv install .
 ```
 
-otterai-api folder should now be in the same folder as you your project files.
+otterai-api folder should now be in the same folder as your project files.
 
 ![folder directory](/images/image2.png)
 
