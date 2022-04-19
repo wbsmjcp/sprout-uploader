@@ -124,6 +124,7 @@ database = {
     "Otter URL": rendered_URL,
     "Sprout ID": sprout_id,
     "Sprout URL": sprout_link,
+    "Video Title": title,
     "Embed Code": new_embed
 }
 
