@@ -121,7 +121,7 @@ run_all(file, title)
 
 # - Build Ticket
 database = {
-    "Otter URL": otter_URL,
+    "Otter URL": rendered_URL,
     "Sprout ID": sprout_id,
     "Sprout URL": sprout_link,
     "Embed Code": new_embed
