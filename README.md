@@ -7,6 +7,7 @@ The user provides a video file path which uploads to both services (user is give
 It also renames the file on Sprout, removing the file extension. (Sprout does this now by default as of August 2022)
 
 -- New features/Changes -- August 2022
+
 Creates aspect size appropriate embed code and copies it to clipboard.
 
 Adds second code to CSV where Title is not included, to be adjusted manually.
