@@ -8,11 +8,17 @@ It also renames the file on Sprout, removing the file extension. (Sprout does th
 
 -- New features/Changes -- August 2022
 Creates aspect size appropriate embed code and copies it to clipboard.
+
 Adds second code to CSV where Title is not included, to be adjusted manually.
+
 CSV reconfigured and easier to read, adds aspect ratio to ticket for determining appropriate thumbnail frame.
+
 Shows elapsed time of process.
+
 Will loop if non appropriate file format is found.
+
 Will accept folder or file paths, will list and process through all files individually in a folder path.
+
 Added clearer command comments and Ascii art. 
 
 ---
