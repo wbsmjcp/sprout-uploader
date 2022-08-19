@@ -9,6 +9,8 @@ python-decouple = "*"
 requests-toolbelt = "*"
 otterai = {path = "./otterai-api"}
 pandas = "*"
+pyperclip = "*"
+opencv-python = "*"
 
 [dev-packages]
 

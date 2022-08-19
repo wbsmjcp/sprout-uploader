@@ -3,6 +3,12 @@
 ---
 
 This script is designed to be used from the command line. 
+If you don't have it, you will need to download Python 3 from the official website.
+`https://www.python.org/downloads/`
+
+You will also need to have pipenv installed. Open terminal and paste this in:
+`sudo -H pip3 install -U pipenv `
+It will ask for your password and then install.
 
 ## Setting up your login credentials
 ### Required: store login details as .env file within folder. See below for variables.
@@ -57,8 +63,7 @@ otterai-api folder should be in the same folder as you your project files.
 
 to run script, navigate terminal to project folder and run:
 ```
-pipenv shell
-pipenv run python main.py
+pipenv run python3 main.py
 ```
 
 script requests file path.

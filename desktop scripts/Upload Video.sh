@@ -1,4 +1,4 @@
-cd "/Users/dan_1/Documents/VSCODE/SPROUTUPPER"
+cd "/Users/wbslecturecapture/Documents/GitHub/sprout-uploader"
 pipenv run python3 main.py
-open "/Users/dan_1/Documents/VSCODE/SPROUTUPPER"
+open "/Users/wbslecturecapture/Documents/GitHub/sprout-uploader"
 exit

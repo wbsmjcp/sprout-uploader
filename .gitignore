@@ -7,3 +7,5 @@ sprout_upload.json
 test.py
 UploadTicket.csv
 
+desktop scripts/Upload Video Test.sh
+.DS_Store

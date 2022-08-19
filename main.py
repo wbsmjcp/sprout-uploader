@@ -1,13 +1,20 @@
+#! python3
 import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import os
+from pathlib import Path
 import json
 import sys
+import math
 sys.path.insert(0, 'otterai-api/otterai')
 from otterai import OtterAI, OtterAIException
-import os
 from decouple import config
 import pandas as pd
+import pyperclip
+import cv2
+from datetime import datetime
+
+start_time=datetime.now()
 
 sprout_id = config('sprout_id', default='')
 sprout_pass = config('sprout_pass', default='')
@@ -15,19 +22,11 @@ otter_id = config('otter_id', default='')
 otter_pass = config('otter_pass', default='')
 SproutVideoApiKey = config('SproutVideoApiKey', default='')
 upload_Videos = config('upload_Videos', default='')
+video_title = () 
+output_folder=config('outputFolder', default='')
 
 otter = OtterAI()
 otter.login(otter_id, otter_pass)
-
-print('enter file path')
-filePath = input()
-print(filePath)
-
-file = filePath
-print('file entered...')
-
-old_title = os.path.basename(file)
-title = old_title.replace('.mp4', '')
 
 speech_id = ''
 otter_URL = 'https://otter.ai/u/'
@@ -42,14 +41,14 @@ def upload_speech(file):
     """
     global speech_id
     global rendered_URL
-    print('Attempting to upload speech: ' + title + ' to Otter.ai')
+    print('\n Attempting to upload speech: ' + title + ' to Otter.ai')
     try:
         upload = otter.upload_speech(file)
         speech_id = upload['data']['otid']
         rendered_URL = otter_URL + speech_id
 
     except OtterAIException as e:
-        print("Didn't work for some reason")
+        print("/n !!!! Didn't work for some reason !!!!")
 
     return speech_id
 
@@ -75,10 +74,15 @@ def save_to_JSON(speech_id):
     with open('sample_otter.json', 'w') as outfile:
         json.dump(file, outfile)
 
-def upload_sprout(video_file, video_title):
+def upload_sprout(video_file, video_title):   
+
     global sprout_link
     global sprout_id
     global new_embed
+    global embed_title
+    global width
+    global height
+    global gcdaspect
 
     m = MultipartEncoder(
         fields={
@@ -88,7 +92,7 @@ def upload_sprout(video_file, video_title):
     )
 
     r = requests.post(upload_Videos, data=m, headers={'Content-Type': m.content_type, 'SproutVideo-Api-Key': SproutVideoApiKey})
-    print(f"Video uploading to sprout under the name {video_title}.")
+    print(f"\n Video uploading to sprout under the name {video_title}.")
  
     with open('sprout_upload.json', 'w') as outfile:
         json.dump(r.text, outfile)
@@ -97,38 +101,114 @@ def upload_sprout(video_file, video_title):
         data = new_file.read()
     obj1 = json.loads(data)
     new_obj = json.loads(obj1)
-    new_embed = new_obj['embed_code'].replace('630', '632').replace('354', '352')
     sprout_id = new_obj['id']
-    sprout_link = "https://sproutvideo.com/videos/" + new_obj['id']
     
-def run_all(file, title):
-    print("upload to Otter? Y/N")
-    responseOtter = input()
-    resp1 = responseOtter.upper()
+    #Get video res
+    vid = cv2.VideoCapture(str(video_file))
+    height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    width = int(vid.get(cv2.CAP_PROP_FRAME_WIDTH))
 
+    #Aspect Ratio 
+    asp = (width * 100) / (height * 100)
+    gcd = int(math.gcd(height, width))
+    gcdaspect = str(width//gcd) + ' x ' + str(height//gcd)
+
+    #Embed code
+    new_height = 350
+    new_width = round(int(new_height)*asp)
+    new_embed = new_obj['embed_code'].replace('630', str(new_width)).replace('354', str(new_height))
+    embed_title = new_embed.replace('Video Player', title.replace('\'', ''))
+    #Sprout video link
+    sprout_link = "https://sproutvideo.com/videos/" + new_obj['id']
+
+def run_all(file, title):
+    #Otter upload query
+
+    responseOtter = input("\n --- upload to Otter? Y/N --- \n").upper()
+    print('\n Uploading to otter')
     try:
-        if resp1 == "Y":
+        if responseOtter == "Y":
             upload_speech(file)
-        if resp1 == "N":
+        if responseOtter == "N":
             print("Skipping Otter.ai submission")
     except:
-        if resp1 != "N" or resp1 != "Y":
+        if responseOtter != "N" or responseOtter != "Y":
             print("Didn't recognise input, skipping Otter upload")       
-        
+
+    # upload_speech(file)
+    print('Uploading to sprout')
     upload_sprout(file, title)
 
-run_all(file, title)
+def print_ascii(asc):
+    f= open(asc,'r')
+    print(''.join([line for line in f]))
 
-# - Build Ticket
+#Acceptable Formats list
+with open("formats.txt", "r") as f:
+    formats = [line.strip() for line in f]
+
+#Program start
+print_ascii('images/ascii-art.txt')
+print('\n---Sprout and Otter Uploader---')
+
+#Ask for user input
+filePath = Path(input('\nPlease paste your video file/folder location:\n'))
+
+#Check if file is a valid format or in a folder
+while not filePath.is_dir() and filePath.suffix not in formats:
+    print('That\'s not a valid file format or folder location. Please try again \n')
+    filePath = Path(input('Paste your video file/folder location: '))
+
+#Determine if file or folder and set Path
+if filePath.is_file():file = [filePath]
+else:
+    file = list(p.resolve() for p in Path(filePath).glob("**/*") if p.suffix in formats)
+
+print('\n path entered... \n --------')
+
+copyClip=[]
 database = {
-    "Otter URL": otter_URL,
-    "Sprout ID": sprout_id,
-    "Sprout URL": sprout_link,
-    "Embed Code": new_embed
-}
+    "Video Title":[],
+    "Embed Code": [],
+    "Sprout ID": [],
+    "Sprout URL": [],
+    "Aspect Ratio": [],
+    "Otter URL":  [],
+    "Video Title TLE":[],
+    "TLE Embed": []
+        }
 
-df = pd.DataFrame([database])
-def_transposed = df.T
-def_transposed.to_csv(f"/Users/wbslecturecapture/Desktop/Upload Ticket - {title}.csv")
+for fp in range(0, len(file)):
+    title = file[fp].stem
+    print('\n Processing file %s' % (title))
+    run_all(str(file[fp]), title)
+    
+    #Add to dictionary for ticket
+    database["Video Title"] += [title]
+    database["Embed Code"] += [embed_title]
+    database["Sprout ID"] += [sprout_id]
+    database["Sprout URL"] += [sprout_link]
+    database["Aspect Ratio"] += [gcdaspect]
+    database["Otter URL"] += [rendered_URL]
+    database["Video Title TLE"] += [title]
+    database["TLE Embed"] += [new_embed]
 
-print("Complete. Please see csv file for info")
+    #Create copy to clipboard variable
+    copyTitle = database.get('Video Title')[fp]
+    copyCode = database.get('Embed Code')[fp]
+    copyClip.extend(['\n' + copyTitle + '\n' + copyCode])
+    print('\n Finished uploading file %s to sprout.' % (title))
+
+#Create ticket for all files
+timeStamp = datetime.now().strftime('%d-%b-%y - %H-%M')
+df = pd.DataFrame.from_dict(database, orient ='index')
+df.to_csv(f"{output_folder}/Upload Ticket - {timeStamp}.csv", index=True, header=False)
+
+#You are done
+pyperclip.copy('\n'.join(copyClip))
+print("Complete. Please see csv file for info \n --- Titles and Embed codes copied to clipboard")
+end_time=datetime.now()
+elapsed_time=end_time-start_time
+print('Time to complete program ', elapsed_time, ' seconds')
+
+#TODO - Add while True loop to run until user breaks out
