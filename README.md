@@ -115,37 +115,24 @@ otterai-api folder should now be in the same folder as your project files.
 You will need to update the 'main.py' and 'Upload Video.sh' file for your machines file directory. It's easy to do with a text editor like TextEdit or VS Code.
 
 
-### updating main.py
-Right click and open main.py with TextEdit.
-
-Scroll down to the bottom, looking for the line:    
-
-```
-def_transposed.to_csv(f"/Users/dan_1/Desktop/Upload Ticket - {title}.csv")
-```
-<br>
-you need to replace the 
-``
-/Users/dan_1/Desktop/
-```
-section with the file path for your own desktop (or somewhere else you'd like the upload ticket csv files to go). <br>
-
-Click save and close the script when you are done.
-
 ### updating upload video.sh
 Right click and open 'Upload Video.sh' with TextEdit. It's in the 'desktop scripts' folder. <br>
 
 The code inside will look like this:
 ```
-cd "/Users/dan_1/Documents/VSCODE/SPROUTUPPER"
+cd ""
 pipenv run python3 main.py
-open "/Users/dan_1/Documents/VSCODE/SPROUTUPPER"
+open ""
 exit
 ```
 
-replace the 
+Find and copy the file path to where Sprout-Uploader is installed. Paste the code into the quote marks above (under cd and open). Once done it should look like the below. You can save and close the shell file. 
+
 ```
-/Users/dan_1/Documents/VSCODE/SPROUTUPPER
+cd "/Users/mycomputer/github/sprout-uploader"
+pipenv run python3 main.py
+open "/Users/mycomputer/github/sprout-uploader"
+exit
 ``` 
 
 section with the pathname to folder you've saved the files to. In the earlier image, we saved the sprout-uploader folder to our documents folder so we would replace with 
