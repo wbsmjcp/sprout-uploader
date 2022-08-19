@@ -135,16 +135,6 @@ open "/Users/mycomputer/github/sprout-uploader"
 exit
 ``` 
 
-section with the pathname to folder you've saved the files to. In the earlier image, we saved the sprout-uploader folder to our documents folder so we would replace with 
-
-```
-
-/Users/dan_1/Documents/sprout-uploader
-
-```
-
-When you have replaced the text on line 1 and 3, click save and close the file.
-
 ---
 ## Creating a shortcut to your mac dock
 At this point, you should be able to run the upload script by clicking the 
