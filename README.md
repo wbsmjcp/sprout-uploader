@@ -55,13 +55,14 @@ touch .env
 Using your text editor, enter these variables and update accordingly: 
 
 ``` 
-sprout_id = 'your sprout login email'
-sprout_pass = 'your sprout password'
-otter_id = 'your otter login email'
-otter_pass = 'your otter password'
-SproutVideoApiKey = 'your sprout video api key'
+sprout_id = '' # Your sprout email ID
+sprout_pass = '' # Your sprout ID password
+otter_id = '' # Your otter email ID
+otter_pass = '' # Your otter ID password
+outputFolder = '' # Your output folder path. e.g. 'USERS/MyUploads/UploadTickets'
+SproutVideoApiKey = "" #Sprout API Key
 list_Videos = "https://api.sproutvideo.com/v1/videos"
-upload_Videos = "https://api.sproutvideo.com/v1/videos" 
+upload_Videos = "https://api.sproutvideo.com/v1/videos"
 ```
 The email addresses and passwords need to be wrapped in quotation marks (single or double is fine).
 
@@ -208,4 +209,3 @@ display progress from upload  <br>
 get from otter and upload to video file - not currently able to do this  <br>
 share otter speech with designated user / group   <br>
 collect and upload posterframe to video file?  <br>
-upload all files within folder?  <br>
