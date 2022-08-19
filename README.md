@@ -2,9 +2,18 @@
 
 This script uploads to the video service Sprout Video and the speech to text service Otter.ai using both API's.
 
-The user provides a video file path which uploads to both services (user is given a choice to upload to Otter or not) and is returned a .csv file containing the web URL links for both uploads and a custom embed code that fits on the WBS VLE, my.wbs.
+The user provides a video file path which uploads to both services (user is given a choice to upload to Otter or not) and is returned a .csv file containing the web URL links for both uploads and a custom embed code that fits on the WBS VLE, my.wbs. 
 
-It also renames the file on Sprout, removing the .mp4 from the file name.
+It also renames the file on Sprout, removing the file extension. (Sprout does this now by default as of August 2022)
+
+-- New features/Changes -- August 2022
+Creates aspect size appropriate embed code and copies it to clipboard.
+Adds second code to CSV where Title is not included, to be adjusted manually.
+CSV reconfigured and easier to read, adds aspect ratio to ticket for determining appropriate thumbnail frame.
+Shows elapsed time of process.
+Will loop if non appropriate file format is found.
+Will accept folder or file paths, will list and process through all files individually in a folder path.
+Added clearer command comments and Ascii art. 
 
 ---
 
