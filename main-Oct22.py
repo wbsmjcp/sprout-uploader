@@ -12,6 +12,7 @@ from decouple import config
 import pandas as pd
 import pyperclip
 import cv2
+import pyinputplus as pyip
 from datetime import datetime
 
 start_time=datetime.now()
@@ -152,66 +153,75 @@ with open("formats.txt", "r") as f:
 print_ascii('images/ascii-art.txt')
 print('\n---Sprout and Otter Uploader---')
 
-#Ask for user input
-filePath = Path(input('\nPlease paste your video file/folder location:\n'))
+while True:
+    #Ask for user input
+    filePath = Path(input('\nPlease paste your video file/folder location:\n'))
 
-#Check if file is a valid format or in a folder
-while not filePath.is_dir() and filePath.suffix not in formats:
-    print('That\'s not a valid file format or folder location. Please try again \n')
-    filePath = Path(input('Paste your video file/folder location: '))
+    #Check if file is a valid format or in a folder
+    while not filePath.is_dir() and filePath.suffix not in formats:
+        print('That\'s not a valid file format or folder location. Please try again \n')
+        filePath = Path(input('Paste your video file/folder location: '))
 
-#Determine if file or folder and set Path
-if filePath.is_file():file = [filePath]
-else:
-    file = list(p.resolve() for p in Path(filePath).glob("**/*") if p.suffix in formats)
+    #Determine if file or folder and set Path
+    if filePath.is_file():file = [filePath]
+    else:
+        file = list(p.resolve() for p in Path(filePath).glob("**/*") if p.suffix in formats)
 
-print('\n path entered... \n --------')
+    print('\n path entered... \n --------')
 
-copyClip=[]
-database = {
-    "Video Title":[],
-    "Embed Code": [],
-    "Sprout ID": [],
-    "Sprout URL": [],
-    "Aspect Ratio": [],
-    "Otter URL":  [],
-    "Video Title TLE":[],
-    "TLE Embed": []
-        }
+    copyClip=[]
+    database = {
+        "Video Title":[],
+        "Embed Code": [],
+        "Sprout ID": [],
+        "Sprout URL": [],
+        "Aspect Ratio": [],
+        "Otter URL":  [],
+        "Video Title TLE":[],
+        "TLE Embed": []
+            }
 
-for fp in range(0, len(file)):
-    title = file[fp].stem
-    print('\n Processing file %s' % (title))
-    run_all(str(file[fp]), title)
-    
-    #Add to dictionary for ticket
-    database["Video Title"] += [title]
-    database["Embed Code"] += [embed_title]
-    database["Sprout ID"] += [sprout_id]
-    database["Sprout URL"] += [sprout_link]
-    database["Aspect Ratio"] += [gcdaspect]
-    database["Otter URL"] += [rendered_URL]
-    database["Video Title TLE"] += [title]
-    database["TLE Embed"] += [new_embed]
+    for fp in range(0, len(file)):
+        title = file[fp].stem
+        print('\n Processing file %s' % (title))
+        run_all(str(file[fp]), title)
+        
+        #Add to dictionary for ticket
+        database["Video Title"] += [title]
+        database["Embed Code"] += [embed_title]
+        database["Sprout ID"] += [sprout_id]
+        database["Sprout URL"] += [sprout_link]
+        database["Aspect Ratio"] += [gcdaspect]
+        database["Otter URL"] += [rendered_URL]
+        database["Video Title TLE"] += [title]
+        database["TLE Embed"] += [new_embed]
 
-    #Create copy to clipboard variable
-    copyTitle = database.get('Video Title')[fp]
-    copyCode = database.get('Embed Code')[fp]
-    copyClip.extend(['\n' + copyTitle + '\n' + copyCode])
-    print('\n Finished uploading file %s to sprout.' % (title))
+        #Create copy to clipboard variable
+        copyTitle = database.get('Video Title')[fp]
+        copyCode = database.get('Embed Code')[fp]
+        copyClip.extend(['\n' + copyTitle + '\n' + copyCode])
+        print('\n Finished uploading file %s to sprout.' % (title))
 
-#Create ticket for all files
-timeStamp = datetime.now().strftime('%d-%b-%y - %H-%M')
-df = pd.DataFrame.from_dict(database, orient ='index')
-df.to_csv(f"{output_folder}/Upload Ticket - {timeStamp}.csv", index=True, header=False)
+    #Create ticket for all files
+    timeStamp = datetime.now().strftime('%d-%b-%y - %H-%M')
+    df = pd.DataFrame.from_dict(database, orient ='index')
+    df.to_csv(f"{output_folder}/Upload Ticket - {timeStamp}.csv", index=True, header=False)
 
-#You are done
-pyperclip.copy('\n'.join(copyClip))
-print("Complete. Please see csv file for info \n --- Titles and Embed codes copied to clipboard")
-end_time=datetime.now()
-elapsed_time=end_time-start_time
-print('Time to complete program ', elapsed_time, ' seconds')
+    #You are done
+    pyperclip.copy('\n'.join(copyClip))
+    print(df)
+    print(" Complete. Please see csv file for info \n --- Titles and Embed codes copied to clipboard")
+    end_time=datetime.now()
+    elapsed_time=end_time-start_time
+    print('Time to complete program ', elapsed_time, ' seconds')
+    prompt_rerun = 'Do you want to upload more files? \n'
+    response=pyip.inputYesNo(prompt_rerun)
+    if response == 'no':
+        break
+print('\n Thank you and good night!')
 
 #TODO - Add while True loop to run until user breaks out
-#TODO - Flash/Django integration, web app instead of command line console
+#TODO - Add print out of copied info to console
+#TODO - Tickets/files in alphabetical order?
+#TODO - Flash/Django/REACTJS integration, web app instead of command line console
 #TODO - Public web app for academics to upload directly?????
